@@ -19,10 +19,16 @@ function App() {
   }, []); // Empty dependency array, runs once on mount
 
   const addTask = () => {
-    const newTask = { id: tasks.length + 1, name: taskName };
+    const newTask = { id: Date.now(), name: taskName };
     setTasks([...tasks, newTask]);
     setTaskName('');
   };
+
+  const removeTask = (taskId) => {
+    console.log('remove')
+    const newTask = tasks.filter((item) => item.id !== taskId)
+    setTasks(newTask)
+  }
 
   return (
     <div className="App">
@@ -36,7 +42,8 @@ function App() {
       <button onClick={addTask}>Add Task</button>
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>{task.name}</li>
+          <li key={task.id}>{task.name}
+          <button onClick={() => removeTask(task.id)}>Delete Me</button></li>
         ))}
       </ul>
     </div>
