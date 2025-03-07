@@ -39,4 +39,8 @@ function App() {
           <li key={task.id}>{task.name}</li>
         ))}
       </ul>
-    </div
+    </div>
+  );
+}
+
+export default App;
