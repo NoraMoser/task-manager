@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { TaskContext } from "./TaskContext";
-
+import styles from './Task.module.css';
 const TaskManager = () => {
   const {
     tasks,
     taskName,
+    taskId,
     filterName,
     edited,
     filteredTask,
@@ -16,14 +17,15 @@ const TaskManager = () => {
     editTask,
     findFilteredTask,
   } = useContext(TaskContext);
-
+console.log(tasks)
   return (
     <div>
+      <h1 className={styles.title}>Task Manager</h1>
       <input type="text" value={filterName} onChange={(e) => setFilterName(e.target.value)} placeholder="Filter" />
       <button onClick={() => findFilteredTask(filterName)}>Search</button>
 
       <input type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder="Enter new task" />
-      {edited ? <button onClick={() => editTask(taskName)}>Save Edited Name</button> : <button onClick={addTask}>Add Task</button>}
+      {edited ? <button onClick={() => editTask(taskId)}>Save Edited Name</button> : <button onClick={addTask}>Add Task</button>}
 
       {Object.keys(filteredTask).length > 0 ? (
         <li key={filteredTask.id}>

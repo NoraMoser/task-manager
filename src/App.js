@@ -1,14 +1,16 @@
 import React from "react";
 import { TaskProvider } from "./TaskStuff/TaskContext"; // Import TaskProvider
-import TaskManager from "./TaskStuff/TaskManager"; // We'll move UI logic to a separate component
-import styles from './TaskStuff/Task.module.css';
+import TaskManager from "./TaskStuff/TaskManager";
+import Memo from './MemoStuff/Memo'
+import Effect from './EffectStuff/Effect'
 
 function App() {
   return (
     <TaskProvider>
       <div className="App">
-        <h1 className={styles.title}>Task Manager</h1>
         <TaskManager />
+        <Memo />
+        <Effect />
       </div>
     </TaskProvider>
   );
