@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
+import './Form.css'
 
 const UserForm = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,20 @@ const UserForm = () => {
     role: '',
     termsAccepted: ''
   })
+  
+  const handleValidation = useCallback(() => {
+    const errors = {}
+    
+    errors.name= formData.name ? '' : 'Name cannot be blank'
+    errors.email= formData.email ? '' : 'Email cannot be blank'
+    errors.termsAccepted= errors.termsAccepted = formData.termsAccepted ? '' : 'You must accept the terms';
+    
+    setErrors(errors)
+  }, [formData])
+
+  useEffect(() => {
+    handleValidation()
+  }, [formData, handleValidation]);
 
   const handleInputChange = (e) => {
     const {name, value} = e.target
@@ -22,28 +37,18 @@ const UserForm = () => {
         ...prevData,
         [name]: value
       }))
-  }
-
-  const handleValidation = () => {
-    const errors = {}
-
-      errors.name= formData.name ? '' : 'Name cannot be blank'
-      errors.email= formData.email ? '' : 'Email cannot be blank'
-      errors.termsAccepted= (formData.name && formData.email) ?? true
+    }
     
-      setErrors(errors)
-      return errors
-  }
 
+    
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    const validation = handleValidation()
-    console.log(validation)
-    if ((validation.name || validation.email) !== '') {
+    handleValidation()
+    if ((errors.name || errors.email) !== '') {
       console.log('I cannot submit with errors')
     }
   }
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -57,7 +62,7 @@ const UserForm = () => {
           onChange={handleInputChange}
           ></input>
       </div>
-<p>{errors.name ? `The form has errors. Fix ${errors.name}.` : null}</p>
+      <p className='errors'>{errors.name ? `The form has errors. Fix ${errors.name}.` : null}</p>
       <div>
         <label>Email:</label>
         <input
