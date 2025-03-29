@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
+import { ThemeContext } from "../StateManagement/ThemeContext";
 import styles from './Task.module.css';
 const TaskManager = () => {
   const {
@@ -17,13 +18,14 @@ const TaskManager = () => {
     editTask,
     findFilteredTask,
   } = useContext(TaskContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 console.log(tasks)
   return (
-    <div>
+    <div style={{ background: theme === "light" ? "#fff" : "#333", color: theme === "light" ? "#000" : "#fff", padding: "10px" }}>
       <h1 className={styles.title}>Task Manager</h1>
       <input type="text" value={filterName} onChange={(e) => setFilterName(e.target.value)} placeholder="Filter" />
       <button onClick={() => findFilteredTask(filterName)}>Search</button>
-
+      <button onClick={toggleTheme}>Toggle Theme</button>
       <input type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder="Enter new task" />
       {edited ? <button onClick={() => editTask(taskId)}>Save Edited Name</button> : <button onClick={addTask}>Add Task</button>}
 
@@ -47,5 +49,5 @@ console.log(tasks)
     </div>
   );
 };
-
-export default TaskManager;
+//this will memoize the return to prevent re-renders (unless taskManager changes)
+export default React.memo(TaskManager);
